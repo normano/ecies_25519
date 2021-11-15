@@ -1,0 +1,233 @@
+plugins {
+  id 'maven-publish'
+  id 'signing'
+  id 'java'
+  id 'se.patrikerdes.use-latest-versions' version '0.2.5'
+  id 'com.github.ben-manes.versions' version '0.20.0'
+}
+
+ext {
+  jacocoVersion = "0.8.6"
+  moduleName = "com.excsn.security.crypto.ecies_25519"
+}
+
+group 'com.excsn.security.crypto'
+version '1.0-SNAPSHOT'
+
+apply plugin: "maven-publish"
+apply plugin: 'java-library'
+apply plugin: 'jacoco'
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+tasks.withType(JavaCompile) {
+
+  options.encoding = 'UTF-8'
+  options.incremental = true
+  options.verbose = false
+}
+
+java {
+
+  modularity.inferModulePath.set(true)
+}
+
+apply plugin: 'idea'
+
+idea {
+  module {
+    inheritOutputDirs = false
+    outputDir file('out/production/classes')
+    testOutputDir file('out/test/classes')
+    downloadJavadoc = true
+    downloadSources = true
+  }
+}
+
+afterEvaluate {
+
+  compileJava {
+
+    inputs.property("moduleName", moduleName)
+    doFirst {
+      options.compilerArgs += [
+        '--module-path', classpath.asPath,
+      ]
+
+      classpath = files()
+    }
+  }
+
+  javadoc {
+
+    inputs.property("moduleName", moduleName)
+    options.modulePath = classpath.asList()
+  }
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/main/java'
+    }
+    resources {
+      srcDir 'src/main/resources'
+    }
+  }
+  test {
+    java {
+      srcDir 'src/test/java'
+    }
+    resources {
+      srcDir 'src/test/resources'
+    }
+  }
+}
+
+javadoc {
+
+  options.addStringOption('Xdoclint:none', '-quiet')
+  options.addBooleanOption('html5', true)
+  options.tags('apiNote:a:API Note:')
+  options.tags('implSpec:a:Implementation Requirements:')
+  options.tags('implNote:a:Implementation Note:')
+  options.tags('param')
+  options.tags('return')
+  options.tags('throws')
+  options.tags('since')
+  options.tags('version')
+  options.tags('serialData')
+  options.tags('factory')
+  options.tags('see')
+
+  // The below doesn't work for some reason
+  //options.taglets('build.tools.taglet.ModuleGraph')
+}
+
+jacoco {
+  toolVersion = jacocoVersion
+  reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+  reports {
+
+    xml.enabled false
+    csv.enabled false
+    html.destination file("$buildDir/reports/jacoco/html")
+  }
+}
+
+test {
+  useJUnitPlatform()
+
+  jacoco {
+    destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+    classDumpDir = file("$buildDir/jacoco/classpathdumps")
+  }
+
+  testLogging {
+    events 'PASSED', 'FAILED', 'SKIPPED'
+  }
+
+  afterSuite { desc, result ->
+    if (!desc.parent) {
+      println "\nTest result: ${result.resultType}"
+      println "Test summary: ${result.testCount} tests, " +
+        "${result.successfulTestCount} succeeded, " +
+        "${result.failedTestCount} failed, " +
+        "${result.skippedTestCount} skipped"
+    }
+  }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+
+  archiveClassifier = 'sources'
+  from sourceSets.main.java.srcDirs
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+
+  from javadoc.destinationDir
+  archiveClassifier = 'javadoc'
+}
+
+artifacts {
+  archives sourcesJar
+  archives javadocJar
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+publishing {
+  publications {
+
+    mavenJava(MavenPublication) {
+
+      from components.java
+      artifact tasks.sourcesJar
+      artifact tasks.javadocJar
+
+      pom {
+        name = project.name
+        description = project.description
+        licenses {
+          license {
+            name = 'Mozilla Public License Version 2.0'
+            url = 'https://www.mozilla.org/en-US/MPL/2.0/'
+          }
+        }
+        developers {
+          developer {
+            id = 'normano'
+            name = 'Norman O.'
+            email = 'normo.pub@gmail.com'
+          }
+        }
+        scm {
+          url = 'https://github.com/normano/ecies_25519'
+        }
+      }
+    }
+  }
+
+  repositories {
+    maven {
+
+      name "ossrhRepo"
+
+      def snapshotUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+      def releaseUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+      url version.endsWith("-SNAPSHOT") ? snapshotUrl : releaseUrl
+
+      credentials {
+
+        username ossrhUser
+        password ossrhPassword
+      }
+    }
+  }
+}
+
+dependencies {
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+  // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
+  implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.69'
+
+  // https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on
+  implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.69'
+
+  // https://mvnrepository.com/artifact/com.google.crypto.tink/tink
+  implementation group: 'com.google.crypto.tink', name: 'tink', version: '1.6.1'
+}
+
+signing {
+  sign publishing.publications
+}

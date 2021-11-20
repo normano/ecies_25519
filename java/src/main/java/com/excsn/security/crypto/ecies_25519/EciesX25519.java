@@ -11,7 +11,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Arrays;
-import java.util.Base64;
 
 import com.google.crypto.tink.subtle.X25519;
 
@@ -19,8 +18,8 @@ import com.google.crypto.tink.subtle.X25519;
  * Elliptic Curve Integrated Encryption Scheme or ECIES
  *
  * Curve: x25519
- * Symmetric Algorithm: AES-256-GCN
- * HKDF SHA256
+ * Symmetric Algorithm: AES-256-GCM
+ * KDF: HKDF-SHA256
  *
  * Details: https://en.wikipedia.org/wiki/Integrated_Encryption_Scheme#Formal_description_of_ECIES
  *

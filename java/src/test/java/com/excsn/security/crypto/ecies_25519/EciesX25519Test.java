@@ -1,7 +1,6 @@
 package com.excsn.security.crypto.ecies_25519;
 
 import com.google.crypto.tink.subtle.X25519;
-import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class EciesX25519Test {
     Assertions.assertTrue(encodedEncryptedData != null && encodedEncryptedData.length > 0);
 
     var decryptedData = _eciesX25519.decrypt(_recvPrivKeyBytes, encodedEncryptedData);
-    Assertions.assertTrue(ByteUtils.equals(data.getBytes(StandardCharsets.UTF_8), decryptedData));
+    Assertions.assertArrayEquals(data.getBytes(StandardCharsets.UTF_8), decryptedData);
   }
 
   @Test
@@ -46,6 +45,6 @@ public class EciesX25519Test {
     var packedMessage = Base64.getDecoder().decode(encodedPackedMsg);
     var decryptedData = _eciesX25519.decrypt(recvPrivKeyBytes, packedMessage);
 
-    Assertions.assertTrue(ByteUtils.equals(expectedData.getBytes(StandardCharsets.UTF_8), decryptedData));
+    Assertions.assertArrayEquals(expectedData.getBytes(StandardCharsets.UTF_8), decryptedData);
   }
 }

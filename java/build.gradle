@@ -7,7 +7,7 @@ plugins {
 }
 
 ext {
-  jacocoVersion = "0.8.6"
+  jacocoVersion = "0.8.7"
   moduleName = "com.excsn.security.crypto.ecies_25519"
 }
 
@@ -217,15 +217,6 @@ publishing {
 dependencies {
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
-  // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
-  implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.69'
-
-  // https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on
-  implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.69'
-
-  // https://mvnrepository.com/artifact/com.google.crypto.tink/tink
-  implementation group: 'com.google.crypto.tink', name: 'tink', version: '1.6.1'
 }
 
 signing {

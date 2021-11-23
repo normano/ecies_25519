@@ -26,7 +26,7 @@ public class EciesX25519Test {
   }
 
   @Test
-  public void encryptsAndDecruptsData() throws GeneralSecurityException {
+  public void encryptsAndDecryptsData() throws GeneralSecurityException {
 
     var data = "Hello World";
     var encodedEncryptedData = _eciesX25519.encrypt(_recvPubKeyBytes, data.getBytes(StandardCharsets.UTF_8));

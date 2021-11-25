@@ -2,7 +2,7 @@
   "name": "@excsn/ecies_25519",
   "description": "Elliptic Curve Integrated Encryption Scheme using x25519",
   "version": "0.1.0",
-  "author": "Norman O <normo.pub@gmail.com>",
+  "author": "Norm O <normo.pub@gmail.com>",
   "license": "MPL-2.0",
   "main": "dist/index.js",
   "directories": {

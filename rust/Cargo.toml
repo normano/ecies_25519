@@ -1,5 +1,6 @@
 [package]
 name = "ecies_25519"
+description = "Elliptic Curve Integrated Encryption Scheme with X25519 curve"
 version = "0.1.0"
 edition = "2021"
 authors = ["Norm O <normo.pub@gmail.com>"]

@@ -99,7 +99,7 @@ use backend::*;
 const AES_IV_LENGTH: usize = 12;
 
 /// The length of a `SecretKey`, in bytes.
-const SECRET_KEY_LENGTH: usize = 32;
+// const SECRET_KEY_LENGTH: usize = 32;
 
 /// The length of a `PublicKey`, in bytes.
 const PUBLIC_KEY_LENGTH: usize = 32;

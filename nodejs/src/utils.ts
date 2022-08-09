@@ -1,11 +1,13 @@
-import * as asn from "asn1.js";
 import { createPrivateKey, createPublicKey } from "crypto";
 
-const ASN1ECPkcs8Key = asn.define("Pkcs8Key", function() {
-  this.seq().obj(
-    this.key("version").int(),
-    this.key("algorithmIdentifier").seq().obj(
-      this.key("privateKeyType").objid({
+const asn = require("asn1.js");
+
+const ASN1ECPkcs8Key = asn.define("Pkcs8Key", () => {
+  const self: any = this;
+  self.seq().obj(
+    self.key("version").int(),
+    self.key("algorithmIdentifier").seq().obj(
+      self.key("privateKeyType").objid({
         "1 2 840 10045 3 1 7": "prime256v1",
         "1 3 101 110": "x25519",
         "1 3 101 111": "x448",
@@ -16,14 +18,15 @@ const ASN1ECPkcs8Key = asn.define("Pkcs8Key", function() {
         "1 3 132 0 35": "secp521r1",
       })
     ),
-    this.key("privateKey").octstr()
+    self.key("privateKey").octstr()
   );
 });
 
-const ASN1ECSpkiKey = asn.define("SpkiKey", function() {
-  this.seq().obj(
-    this.key("algorithmIdentifier").seq().obj(
-      this.key("parameters").objid({
+const ASN1ECSpkiKey = asn.define("SpkiKey", () => {
+  const self: any = this;
+  self.seq().obj(
+    self.key("algorithmIdentifier").seq().obj(
+      self.key("parameters").objid({
         "1 2 840 10045 3 1 7": "prime256v1",
         "1 3 101 110": "x25519",
         "1 3 101 111": "x448",
@@ -34,7 +37,7 @@ const ASN1ECSpkiKey = asn.define("SpkiKey", function() {
         "1 3 132 0 35": "secp521r1",
       })
     ),
-    this.key("publicKey").bitstr()
+    self.key("publicKey").bitstr()
   );
 });
 

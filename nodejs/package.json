@@ -1,35 +1,46 @@
 {
   "name": "@excsn/ecies_25519",
   "description": "Elliptic Curve Integrated Encryption Scheme using x25519",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Norm O <normo.pub@gmail.com>",
   "license": "MPL-2.0",
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.mjs",
+  "exports": {
+    ".": {
+      "node": "./dist/cjs/index.cjs",
+      "module": "./dist/esm/index.mjs"
+    },
+    "./utils": {
+      "node": "./dist/cjs/utils.cjs",
+      "module": "./dist/esm/utils.mjs"
+    }
+  },
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "APP_ENV=test yarn run ava --tap",
     "test:cov": "yarn run nyc -r cobertura -r html -r text yarn run test",
-    "build": "tsc"
+    "build": "sh ./scripts/build.sh"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/normano/ecies_25519.git"
   },
   "dependencies": {
-    "@stablelib/x25519": "^1.0.1",
+    "@stablelib/x25519": "^1.0.2",
     "asn1.js": "^5.4.1",
     "fast-sha256": "^1.3.0",
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.1.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
-    "@types/node": "^16.11.10",
-    "ava": "^3.15.0",
+    "@types/node": "^18.6.5",
+    "ava": "^4.3.1",
     "nyc": "^15.1.0",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
   },
   "publishConfig": {
     "access": "public",

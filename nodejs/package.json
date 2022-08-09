@@ -1,19 +1,20 @@
 {
   "name": "@excsn/ecies_25519",
   "description": "Elliptic Curve Integrated Encryption Scheme using x25519",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Norm O <normo.pub@gmail.com>",
   "license": "MPL-2.0",
+  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.mjs",
   "exports": {
     ".": {
-      "node": "./dist/cjs/index.cjs",
-      "module": "./dist/esm/index.mjs"
+      "require": "./dist/cjs/index.cjs",
+      "import": "./dist/esm/index.mjs"
     },
     "./utils": {
-      "node": "./dist/cjs/utils.cjs",
-      "module": "./dist/esm/utils.mjs"
+      "require": "./dist/cjs/utils.cjs",
+      "import": "./dist/esm/utils.mjs"
     }
   },
   "directories": {

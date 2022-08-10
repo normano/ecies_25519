@@ -1,7 +1,7 @@
 import * as x25519 from '@stablelib/x25519';
 import test from "ava";
 
-import EciesX25519 from "../src/index";
+import EciesX25519 from "../src/index.js";
 
 test("EciesX25519 can initialize", (t) => {
 

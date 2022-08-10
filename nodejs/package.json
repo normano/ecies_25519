@@ -1,7 +1,7 @@
 {
   "name": "@excsn/ecies_25519",
   "description": "Elliptic Curve Integrated Encryption Scheme using x25519",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "author": "Norm O <normo.pub@gmail.com>",
   "license": "MPL-2.0",
   "type": "module",
@@ -21,8 +21,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "APP_ENV=test yarn run ava --tap",
-    "test:cov": "yarn run nyc -r cobertura -r html -r text yarn run test",
+    "test": "APP_ENV=test pnpm exec ava --tap",
+    "test:cov": "pnpm exec nyc -r cobertura -r html -r text pnpm exec test",
     "build": "sh ./scripts/build.sh"
   },
   "repository": {
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@stablelib/x25519": "^1.0.2",
-    "asn1.js": "^5.4.1",
+    "asn1_js": "normano/asn1_js",
     "fast-sha256": "^1.3.0",
     "fs-extra": "^10.1.0"
   },

@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as asn from "asn1_js";
+import {default as asn} from "asn1_js";
 import { createPrivateKey, createPublicKey } from "crypto";
 
 const ASN1ECPkcs8Key = asn.define("Pkcs8Key", () => {

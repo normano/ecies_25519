@@ -1,9 +1,9 @@
 // @ts-ignore
-import {default as asn} from "asn1_js";
+import * as asn from "@excsn/asn1/api";
 import { createPrivateKey, createPublicKey } from "crypto";
 
-const ASN1ECPkcs8Key = asn.define("Pkcs8Key", () => {
-  const self: any = this;
+const ASN1ECPkcs8Key = asn.define("Pkcs8Key", function(this: any) {
+  const self = this;
   self.seq().obj(
     self.key("version").int(),
     self.key("algorithmIdentifier").seq().obj(
@@ -22,8 +22,8 @@ const ASN1ECPkcs8Key = asn.define("Pkcs8Key", () => {
   );
 });
 
-const ASN1ECSpkiKey = asn.define("SpkiKey", () => {
-  const self: any = this;
+const ASN1ECSpkiKey = asn.define("SpkiKey", function (this: any) {
+  const self = this;
   self.seq().obj(
     self.key("algorithmIdentifier").seq().obj(
       self.key("parameters").objid({

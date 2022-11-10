@@ -1,7 +1,7 @@
 {
   "name": "@excsn/ecies_25519",
   "description": "Elliptic Curve Integrated Encryption Scheme using x25519",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "Norm O <normo.pub@gmail.com>",
   "license": "MPL-2.0",
   "type": "module",
@@ -30,7 +30,7 @@
     "url": "https://github.com/normano/ecies_25519.git"
   },
   "dependencies": {
-    "@excsn/asn1": "1.0.0",
+    "@excsn/asn1": "^1.0.1",
     "@stablelib/x25519": "^1.0.2",
     "fast-sha256": "^1.3.0",
     "fs-extra": "^10.1.0"

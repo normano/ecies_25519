@@ -34,8 +34,8 @@
 //!```
 
 mod backend {
-  use aes_gcm::aead::{self, generic_array::GenericArray, Aead, NewAead};
-  use aes_gcm::Aes256Gcm;
+  use aes_gcm::aead::{self, generic_array::GenericArray, Aead};
+  use aes_gcm::{Aes256Gcm, KeyInit};
   use hkdf::Hkdf;
   use rand_core::{CryptoRng, RngCore};
   use sha2::Sha256;

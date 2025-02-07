@@ -4,12 +4,18 @@
 //!
 //! ## Example Usage
 //! ```rust
-//! use rand_core::{OsRng};
+//! use rand::SeedableRng;
+//! use rand_core::{OsRng, TryRngCore};
 //! use ecies_25519::{EciesX25519, generate_keypair, parse_openssl_25519_pubkey_der, parse_openssl_25519_privkey_der};
+//! use rand_chacha::ChaCha8Rng;
 //! 
-//! let mut os_rng = OsRng::default();
+//!  let mut os_rng = rand_core::OsRng::default();
+//!  let mut seed_prod = [0u8; 32];
+//!  os_rng.try_fill_bytes(&mut seed_prod);
 //! 
-//! let recv_kp = generate_keypair(&mut os_rng).unwrap();
+//! let mut cha_rng = ChaCha8Rng::from_seed(seed_prod);
+//! 
+//! let recv_kp = generate_keypair(&mut cha_rng).unwrap();
 //! let recv_pub_key = parse_openssl_25519_pubkey_der(&recv_kp.public_der).unwrap();
 //! let recv_priv_key = parse_openssl_25519_privkey_der(&recv_kp.private_der).unwrap();
 //! 
@@ -21,7 +27,7 @@
 //! let encrypted_data = ecies_inst.encrypt(
 //!    &recv_pub_key, 
 //!    message.as_bytes(), 
-//!    &mut os_rng
+//!    &mut cha_rng
 //! ).unwrap();
 //!
 //! // Decrypt the message with the private key
@@ -37,7 +43,7 @@ mod backend {
   use aes_gcm::aead::{self, generic_array::GenericArray, Aead};
   use aes_gcm::{Aes256Gcm, KeyInit};
   use hkdf::Hkdf;
-  use rand_core::{CryptoRng, RngCore};
+  use rand_core::{CryptoRng, RngCore, TryRngCore};
   use sha2::Sha256;
 
   use super::AesKey;
@@ -230,7 +236,8 @@ impl EciesX25519 {
 
 #[cfg(test)]
 pub mod tests {
-  use rand_core::{OsRng};
+  use rand::SeedableRng;
+  use rand_chacha::ChaCha8Rng;
 
   use super::*;
 
@@ -260,9 +267,10 @@ pub mod tests {
 
   #[test]
   fn test_endecrypt_static_data() {
-    let mut os_rng = OsRng::default();
+    let seed = [0u8; 32];  // 32 bytes for a 256-bit seed
+    let mut rng = ChaCha8Rng::from_seed(seed);
 
-    let recv_kp = generate_keypair(&mut os_rng).unwrap();
+    let recv_kp = generate_keypair(&mut rng).unwrap();
     let recv_pub_key = parse_openssl_25519_pubkey_der(&recv_kp.public_der).unwrap();
     let recv_priv_key = parse_openssl_25519_privkey_der(&recv_kp.private_der).unwrap();
 
@@ -272,7 +280,7 @@ pub mod tests {
     let encrypted_data = ecies_inst.encrypt(
       &recv_pub_key, 
       expected_data.as_bytes(), 
-      &mut os_rng
+      &mut rng
     ).unwrap();
 
     let decrypted_data_bytes = ecies_inst.decrypt(

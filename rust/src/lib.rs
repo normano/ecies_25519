@@ -1,5 +1,5 @@
 //! Elliptic Curve Integrated Encryption Scheme using x25519
-//!
+//!``
 
 //!
 //! ## Example Usage
@@ -97,7 +97,7 @@ mod backend {
   }
 }
 
-pub use curve25519_parser::{KeyPair, PublicKey, StaticSecret, parse_openssl_25519_privkey_der, parse_openssl_25519_pubkey_der};
+pub use x25519_parser::{KeyPair, PublicKey, StaticSecret, parse_openssl_25519_privkey_der, parse_openssl_25519_pubkey_der};
 use rand_core::{CryptoRng, RngCore};
 
 use backend::*;
@@ -117,7 +117,7 @@ pub fn generate_keypair<T>(csprng: &mut T) -> Option<KeyPair>
 where
     T: RngCore + CryptoRng,
 {
-  return curve25519_parser::generate_keypair(csprng);
+  return x25519_parser::generate_keypair(csprng);
 }
 
 fn generate_shared(secret: &StaticSecret, public: &PublicKey) -> x25519_dalek::SharedSecret {

@@ -10,7 +10,7 @@ license = "MPL-2.0"
 readme = "README.md"
 repository = "https://github.com/normano/ecies_25519"
 documentation = "https://docs.rs/ecies_25519"
-keywords = ["ecies", "x25519", "curve25519", "aes", "gcm", "hkdf", "encryption", "cryptography", "hybrid-encryption"]
+keywords = ["ecies", "x25519", "aes", "gcm", "encryption"]
 categories = ["cryptography", "encoding"]
 
 [dependencies]

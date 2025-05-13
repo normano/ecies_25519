@@ -44,6 +44,7 @@ mod parser;
 
 pub use parser::{parse_private_key, parse_public_key, KeyPairDer, PublicKey, StaticSecret, KeyParsingError};
 use rand_core::{CryptoRng, RngCore};
+pub use {rand, rand_core};
 
 use backend::*;
 

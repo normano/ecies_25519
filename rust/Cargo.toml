@@ -1,7 +1,7 @@
 [package]
 name = "ecies_25519"
 description = "Cross-platform Elliptic Curve Integrated Encryption Scheme (ECIES) using X25519, AES-256-GCM, and HKDF-SHA256."
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 authors = ["Norm O <normo.pub@gmail.com>"]
 license = "MPL-2.0"
